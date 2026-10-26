@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "trong-agent-learning-workspace"
+version = "0.1.0"
+description = "Offline educational examples for tool dispatch, task handoffs and lexical retrieval"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {file = "LICENSE"}
+authors = [{name = "Dao Huu Trong"}]
+classifiers = ["Development Status :: 3 - Alpha", "Programming Language :: Python :: 3"]
+
+[project.urls]
+Repository = "https://github.com/DaoHuuTrong2404/autonomous-ai-agents-workspace"
+Issues = "https://github.com/DaoHuuTrong2404/autonomous-ai-agents-workspace/issues"
+
+[tool.setuptools.packages.find]
+include = ["agents", "agents.*"]

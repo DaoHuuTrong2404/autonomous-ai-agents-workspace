@@ -1,6 +1,6 @@
 """
-Lightweight Hybrid BM25 & Semantic Retrieval-Augmented Generation (RAG) Engine
-Zero external vector database dependencies for ultra-fast local inference.
+Local lexical TF-IDF retriever for educational examples.
+No embeddings, BM25 implementation, language model or generated answers.
 """
 
 import math
@@ -21,7 +21,7 @@ class DocumentChunk:
 class HybridRAG:
     """
     Hybrid retriever combining term frequency-inverse document frequency (TF-IDF)
-    and positional keyword density.
+    over tokenized text. The historical class name is retained for compatibility.
     """
     def __init__(self):
         self.documents: List[DocumentChunk] = []
@@ -34,6 +34,10 @@ class HybridRAG:
             self.vocab[token] = self.vocab.get(token, 0) + 1
 
     def search(self, query: str, top_k: int = 3) -> List[Dict[str, Any]]:
+        if isinstance(top_k, bool) or not isinstance(top_k, int) or top_k < 0:
+            raise ValueError("top_k must be a non-negative integer")
+        if top_k == 0:
+            return []
         q_tokens = DocumentChunk._tokenize(query)
         if not q_tokens or not self.documents:
             return []
@@ -61,3 +65,4 @@ class HybridRAG:
             }
             for score, doc in scores[:top_k] if score > 0
         ]
+

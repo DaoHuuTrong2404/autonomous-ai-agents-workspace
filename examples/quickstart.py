@@ -41,7 +41,8 @@ def main():
     results = rag.search("artificial intelligence degree", top_k=1)
     print(f"RAG Top Result: {results}")
 
-    print("\n✨ All agent systems verified and functional 100%!")
+    print("\nDemo finished. Run the test suite separately; external integrations are not exercised.")
 
 if __name__ == "__main__":
     main()
+

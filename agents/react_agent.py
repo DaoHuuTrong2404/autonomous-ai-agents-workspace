@@ -156,3 +156,4 @@ class ReActAgent:
             "steps_taken": self.max_steps,
             "trajectory": self.trajectory
         }
+

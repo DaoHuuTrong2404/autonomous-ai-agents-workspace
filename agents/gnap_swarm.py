@@ -1,6 +1,6 @@
 """
 Git-Native Agent Protocol (GNAP) Swarm Coordinator
-Provides decentralized multi-agent collaboration with persistent JSON state.
+In-memory task-board simulation; no Git operations, persistence or worker execution.
 """
 
 import json
@@ -15,8 +15,8 @@ class AgentRole(str, Enum):
 
 class GNAPSwarm:
     """
-    Decentralized agent coordinator managing role assignment, task boards,
-    and verified handoffs.
+    In-memory coordinator for named roles, tasks and caller-reported handoffs.
+    A verified flag records the caller claim; this class does not audit artifacts.
     """
     def __init__(self, project_name: str = "CTU-AI-Workspace"):
         self.project_name = project_name
@@ -60,3 +60,4 @@ class GNAPSwarm:
             "total_tasks": len(self.task_board),
             "total_handoffs": len(self.handoffs)
         }
+

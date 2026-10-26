@@ -1,106 +1,67 @@
-# Autonomous AI Agents & Intelligent Systems Workspace 🤖
-### 🏫 Can Tho University (CTU) — College of Information & Communication Technology
-**Student:** Dao Huu Trong (Đào Hữu Trọng) — **ID:** B2605840  
-**Major:** Artificial Intelligence (*Cohort 52, 2026 – 2031*)  
-**Architecture:** Multi-Agent Swarm (GNAP) • ReAct Reasoning • Vision CUA • Zero-Dependency Hybrid RAG
+# AI agent learning workspace
 
----
+Small, local Python examples maintained by [Đào Hữu Trọng](https://github.com/DaoHuuTrong2404), an Artificial Intelligence student at Can Tho University.
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python Versions" />
-  <img src="https://img.shields.io/badge/Architecture-GNAP%20Swarm%20Protocol-7B2CBF?style=for-the-badge&logo=git&logoColor=white" alt="GNAP" />
-  <img src="https://img.shields.io/badge/Testing-Pytest%20100%25%20Passing-2EAD33?style=for-the-badge&logo=pytest&logoColor=white" alt="Pytest" />
-  <img src="https://img.shields.io/badge/Codespaces-4--Cores%2016GB-181717?style=for-the-badge&logo=github&logoColor=white" alt="Codespaces" />
-  <img src="https://img.shields.io/badge/License-MIT-00F0FF?style=for-the-badge" alt="License" />
-</p>
+This is an educational prototype. It runs without an API key or model service and is intended for studying tool dispatch, task handoffs, retrieval and simulated UI actions.
 
----
+[Tiếng Việt](docs/README.vi.md) · [Contributing](CONTRIBUTING.md) · [Roadmap](docs/ROADMAP.md) · [MIT license](LICENSE)
 
-## 📌 Architectural Overview
+## Try it
 
-This repository houses the core autonomous intelligence and multi-agent protocols authored by **Dao Huu Trong** during coursework and research at Can Tho University. It delivers production-grade abstractions for deterministic reasoning, decentralized coordination, computer-use automation, and grounded retrieval.
+Requires Python 3.10 or newer. No runtime or test dependencies are required.
 
-```mermaid
-flowchart TD
-    User([User Request / Task]) --> ReAct[ReAct Autonomous Agent]
-    ReAct -->|Decompose| Swarm[GNAP Multi-Agent Swarm]
-    Swarm --> Lead[LeadAgent - Orchestration]
-    Swarm --> Scout[ScoutAgent - Hybrid RAG]
-    Swarm --> Coder[CodeForge - Synthesis]
-    Swarm --> Audit[AuditBot - Pytest / Verification]
-    Scout --> CUA[Vision CUA Agent - SOM Navigation]
-    Audit --> Verification{Verification PASS?}
-    Verification -->|Yes| Output([Verified Task Delivery])
-    Verification -->|No| ReAct
-```
-
----
-
-## 🌟 Core Modules
-
-| Module | Description | Key Capabilities |
-| :--- | :--- | :--- |
-| **`agents.react_agent`** | ReAct Reasoning Engine | Thought-Action-Observation loop, mathematical verification, loop-detection guards. |
-| **`agents.gnap_swarm`** | Git-Native Agent Protocol | Role dispatch (Lead, Scout, Coder, Verifier), task boards, and auditable JSON handoffs. |
-| **`agents.cua_vision`** | Computer-Use Vision Engine | Structured Object Model (SOM), bounding-box parsing, and synthetic UI interaction. |
-| **`agents.hybrid_rag`** | Zero-Dependency Hybrid RAG | Dense TF-IDF + Keyword density matching with zero cloud database overhead. |
-
----
-
-## 🚀 Quickstart Guide
-
-### 1. Clone & Set Up
-```bash
+```sh
 git clone https://github.com/DaoHuuTrong2404/autonomous-ai-agents-workspace.git
 cd autonomous-ai-agents-workspace
+python examples/quickstart.py
+python examples/academic_researcher.py
+python -m unittest discover -s tests -v
 ```
 
-### 2. Run the 10-Second Quickstart Demo
-```bash
-python3 examples/quickstart.py
+Optional editable installation:
+
+```sh
+python -m pip install --no-build-isolation -e .
 ```
 
-### 3. Run Academic Paper Synthesis
-```bash
-python3 examples/academic_researcher.py
+The source-tree commands above work without installation. Editable installation needs setuptools 61 or newer.
+
+## What is implemented
+
+| Module | Current behavior | Limits |
+| --- | --- | --- |
+| `ReActAgent` | Routes a task using keyword rules to a calculator, text statistics or a small built-in glossary; records a trace | No LLM, planning or iterative reasoning. Unknown tasks receive a placeholder response. A completed status is not a correctness guarantee. |
+| `GNAPSwarm` | Records named roles, tasks and handoffs in memory | Does not run workers, use Git, save state or verify artifacts |
+| `VisionCUAAgent` | Creates a simulated click record using caller-supplied labels and boxes | No screenshot recognition, browser connection or real input; status is `SIMULATED` |
+| `HybridRAG` | Ranks text chunks by lexical TF-IDF | Historical class name; no embeddings, BM25, generation or semantic retrieval |
+
+## Example: local document search
+
+```python
+from agents import HybridRAG
+
+search = HybridRAG()
+search.add_document("notes", "Agents can call tools and record observations.")
+search.add_document("other", "A binary search requires sorted input.")
+print(search.search("tools", top_k=1)[0]["id"])  # notes
 ```
 
-### 4. Execute Complete Test Suite
-```bash
-pip install pytest
-pytest tests/ -v
-```
+A query with no matching terms returns an empty list. `top_k=0` returns no results; negative and non-integer limits raise `ValueError`.
 
----
+## Validation and intended use
 
-## 🔬 Directory Structure
-```text
-autonomous-ai-agents-workspace/
-├── .github/
-│   └── workflows/
-│       └── ci.yml               # GitHub Actions CI for Python 3.10-3.12
-├── agents/
-│   ├── __init__.py              # Unified package exports
-│   ├── react_agent.py           # ReAct autonomous reasoning engine
-│   ├── gnap_swarm.py            # Git-Native Agent Protocol swarm
-│   ├── cua_vision.py            # Vision & SOM Desktop/Web automation
-│   └── hybrid_rag.py            # High-performance lightweight RAG
-├── examples/
-│   ├── quickstart.py            # End-to-end runnable showcase
-│   └── academic_researcher.py   # Paper analysis & citation generator
-├── tests/
-│   └── test_agents.py           # Unit tests across all agent architectures
-└── README.md                    # Master documentation & specifications
-```
+The test suite covers the existing demos and regression cases for non-interactive UI targets and retrieval limits. Run it for the current checkout; a demonstration or badge does not prove production readiness.
 
----
+The calculator currently uses character-restricted Python evaluation. Do not expose it to untrusted remote input or use this project as an execution sandbox. UI boxes are caller supplied and should be validated by an integration before real interaction. No external integrations are included.
 
-## 👨‍💻 Maintainer & Academic Contact
-- **Author:** Đào Hữu Trọng (Dao Huu Trong)
-- **University:** Can Tho University (Đại học Cần Thơ - CTU)
-- **Major:** Artificial Intelligence (Trí Tuệ Nhân Tạo)
-- **Email:** [huutrong748@gmail.com](mailto:huutrong748@gmail.com)
-- **Interactive 3D Portfolio:** [daohuutrong2404.github.io](https://daohuutrong2404.github.io)
+The examples use manually supplied text. Search output is a retrieval result, not verified research or a generated academic citation.
 
----
-*License: [MIT](LICENSE) © 2026 Dao Huu Trong. Built with precision for resilient intelligence.*
+## Related work
+
+The [maintainer profile](https://github.com/DaoHuuTrong2404) indexes separate projects, coursework and upstream forks. Those repositories retain their own histories and licensing. This project does not bundle their code or claim their usage as its own.
+
+## Contact and license
+
+Open a GitHub issue with a minimal reproducible example. For sensitive reports, follow [SECURITY.md](SECURITY.md).
+
+MIT © 2026 Dao Huu Trong. See [LICENSE](LICENSE).

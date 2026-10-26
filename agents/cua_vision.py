@@ -1,6 +1,6 @@
 """
 Computer-Use Agent (CUA) Vision & Structured Object Model (SOM) Parser
-Transforms high-resolution desktop screenshots and DOM elements into semantic interactive coordinates.
+Simulates click plans from caller-provided element boxes; does not inspect screenshots or send input.
 """
 
 from dataclasses import dataclass
@@ -43,7 +43,10 @@ class VisionCUAAgent:
         return self.detected_elements
 
     def click_element_by_label(self, label: str) -> Optional[Dict[str, Any]]:
-        target = next((el for el in self.detected_elements if label.lower() in el.label.lower()), None)
+        if not label.strip():
+            return None
+        target = next((el for el in self.detected_elements
+                       if el.interactive and label.casefold() in el.label.casefold()), None)
         if not target:
             return None
         coord = target.center_coordinates
@@ -52,7 +55,8 @@ class VisionCUAAgent:
             "target_id": target.id,
             "target_label": target.label,
             "coordinates": coord,
-            "status": "SUCCESS"
+            "status": "SIMULATED"
         }
         self.action_history.append(action)
         return action
+
